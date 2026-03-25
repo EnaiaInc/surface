@@ -1,5 +1,10 @@
 # Changelog
 
+## v0.12.3 (2026-03-25)
+
+* Force triggering the surface compiler on JS hooks changes (#775)
+* Remove compile-time dependency between catalogue examples and subjects (#774)
+
 ## v0.12.2 (2026-01-29)
 
 * Fix compile errors/warnings with Elixir `v1.19`
