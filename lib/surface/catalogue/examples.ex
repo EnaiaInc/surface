@@ -156,7 +156,7 @@ defmodule Surface.Catalogue.Examples do
   end
 
   def __after_compile__(env, _) do
-    case Module.get_attribute(env.module, :__example_config__)[:catalogue] do
+    case resolve_module(Module.get_attribute(env.module, :__example_config__)[:catalogue]) do
       nil ->
         nil
 
@@ -219,4 +219,12 @@ defmodule Surface.Catalogue.Examples do
   defp maybe_put_doc(nil, _doc), do: nil
   defp maybe_put_doc(config, {_, doc}), do: Keyword.put(config, :doc, doc)
   defp maybe_put_doc(config, _doc), do: config
+
+  # Macro.escape/1 turns module atoms into AST tuples when storing opts
+  # as module attributes. Resolve them back to atoms for runtime use.
+  defp resolve_module({:__aliases__, _meta, parts}) when is_list(parts) do
+    Module.concat(parts)
+  end
+
+  defp resolve_module(other), do: other
 end
